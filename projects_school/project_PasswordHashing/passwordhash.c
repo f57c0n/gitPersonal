@@ -1,9 +1,9 @@
-/*********************************************
+/*********************************
 **	633 Assignment1							**
-**	Password Hashing					    **
-**	Submitted by:			                **
-**		Dexter Falcon		                **
-********************************************/
+**	Password Hashing					  **
+**	Submitted by:			          **
+**		JJFalcon		              **
+**********************************/
 
 #include 	<stdio.h>
 #include 	<stdlib.h>
@@ -35,7 +35,7 @@ char * enterName()
 	printf("Enter your username, Type 0 to exit:\n");
 
 	// limit name to max length
-	sprintf(format, "%%%ds", NAMELENGTH-1); 
+	sprintf(format, "%%%ds", NAMELENGTH-1);
 	scanf(format, name);
 
 	// get rid of all the extra characters
@@ -69,13 +69,13 @@ char * enterPassword()
 	printf("Enter Password: ");
 
 	// limit password to max length
-	sprintf(format, "%%%ds", PASSLENGTH-1); 
+	sprintf(format, "%%%ds", PASSLENGTH-1);
 	scanf(format, pword);
 
 	// get rid of all the extra characters
-	while (getchar() != '\n') { }  
-		
-	// pads with zeros if password length is less than 12 characters	
+	while (getchar() != '\n') { }
+
+	// pads with zeros if password length is less than 12 characters
 	int plength = strlen(pword);
 	if (strlen(pword) < PASSLENGTH-1)
 	{
@@ -110,7 +110,7 @@ int ReadFromFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 	while (fgets(line, MXLINE, file) != NULL)
 	{
 		sscanf(line, "%12s", str);
-		
+
 		// even = usernames, odd = passwords
 		if (ctr % 2 == 0)
 		{
@@ -133,7 +133,7 @@ int ReadFromFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 void WriteToFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSLENGTH], int usrcount)
 {
 	FILE * output;
-	char newLine = '\n'; 
+	char newLine = '\n';
 
 	if ((output = fopen("sample.txt","w")) == NULL)
 	{
@@ -141,12 +141,12 @@ void WriteToFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 		return;
 	}
 
-	usrcount--; 
+	usrcount--;
 
-	while(usrcount > -1) 
+	while(usrcount > -1)
 	{
 		// write usernames
-		if(fwrite((usernames[usrcount]), sizeof(char), (strlen(usernames[usrcount])), output) != strlen(usernames[usrcount])) 
+		if(fwrite((usernames[usrcount]), sizeof(char), (strlen(usernames[usrcount])), output) != strlen(usernames[usrcount]))
 		{
 			printf("Can't write usernames.\n");
 			fclose(output);
@@ -154,7 +154,7 @@ void WriteToFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 		}
 
 		// write newline after userame entry
-		if(fwrite(&newLine, sizeof(char), 1, output) != 1) 
+		if(fwrite(&newLine, sizeof(char), 1, output) != 1)
 		{
 			printf("Can't write newlines\n");
 			fclose(output);
@@ -162,7 +162,7 @@ void WriteToFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 		}
 
 		// write hashed passwords
-		if(fwrite((pwords[usrcount]), sizeof(char), (strlen(pwords[usrcount])), output) != strlen(pwords[usrcount])) 
+		if(fwrite((pwords[usrcount]), sizeof(char), (strlen(pwords[usrcount])), output) != strlen(pwords[usrcount]))
 		{
 			printf("Can't write hashed passwords\n");
 			fclose(output);
@@ -170,14 +170,14 @@ void WriteToFile(char usernames[MXUSERS][NAMELENGTH], char pwords[MXUSERS][PASSL
 		}
 
 		// write newline after hashed password entry
-		if(fwrite(&newLine, sizeof(char), 1, output) != 1) 
+		if(fwrite(&newLine, sizeof(char), 1, output) != 1)
 		{
 			printf("Can't write newlines\n");
 			fclose(output);
 			return;
 		}
 
-		usrcount--; 
+		usrcount--;
 	}
 
 	fclose(output);
@@ -245,13 +245,13 @@ void enterNewUser(const char * username)
 	printf("User not found\n");
 	printf("Creating new user.\n");
 	printf("Enter new user password:\n");
-	
+
 	char * pw = enterPassword();
 	char * hash = Hashify(3, pw);
-	
+
 	strcpy(USERarray[NumofCurrentUsers], username);
 	strcpy(PASSarray[NumofCurrentUsers], hash);
-	
+
 	NumofCurrentUsers++;
 	printf("User added\n\n");
 }
@@ -260,17 +260,17 @@ void enterExistingUserOLM(const char * username, int usernameIndex)
 {
 	int correct = 1;
 	while ((TryOut[usernameIndex] < MAXTryOut) && (correct == 1))
-	{		
+	{
 		char * pw = enterPassword();
 		char * hash = Hashify(3, pw);
-		
+
 		int cmp = strcmp(hash, PASSarray[usernameIndex]);
-		
+
 		if (cmp == 0)
 		{
-			
+
 			TryOut[usernameIndex] = 0;
-			
+
 			printf("User Authenticated.\n");
 			correct = 0;
 		}
@@ -278,9 +278,9 @@ void enterExistingUserOLM(const char * username, int usernameIndex)
 		{
 		printf("Incorrect password, please try again:!\n");
 		TryOut[usernameIndex]++;
-		}		
+		}
 	}
-	
+
 	if (TryOut[usernameIndex] >= MAXTryOut)
 	{
 		printf("User Account Locked.\n\n");
@@ -290,8 +290,8 @@ void enterExistingUserOLM(const char * username, int usernameIndex)
 void xR(char* in, char* out, int r)
 {
 	// rehashing the hashed password
-	out[3] = in[3] ^ (r & 255); 
-	r = r >> 8; 
+	out[3] = in[3] ^ (r & 255);
+	r = r >> 8;
 	out[2] = in[2] ^ (r & 255);
 	r = r >> 8;
 	out[1] = in[1] ^ (r & 255);
@@ -310,10 +310,10 @@ char * generatexR(char* pass, int r)
 }
 
 void enterExistingUserCRA(const char * username, int usernameIndex)
-{		
+{
 		char * pw = enterPassword();
 		char * hash = Hashify(3, pw);
-		
+
 		int r = rand();
 
 		// generate xOr on new hash on client and server side
@@ -321,7 +321,7 @@ void enterExistingUserCRA(const char * username, int usernameIndex)
 		char* serverOut = generatexR(PASSarray[usernameIndex], r);
 
 		int cmp = strcmp(clientOut, serverOut);
-		
+
 		if (cmp == 0)
 		{
 			printf("access granted\n");
@@ -343,9 +343,9 @@ int authenticateThis(int choice)
 		{
 
 			namePTR = enterName();
-			
+
 			// write to file upon exit
-			if (namePTR == (char*) -1) 
+			if (namePTR == (char*) -1)
 			{
 				WriteToFile(USERarray, PASSarray, NumofCurrentUsers);
 				return 0;
@@ -358,9 +358,9 @@ int authenticateThis(int choice)
 		if (usernameIndex == -1)
 		{
 			enterNewUser(namePTR);
-		} 
+		}
 		// username found.
-		else 
+		else
 		{
 			if (choice == 1)
 			{
@@ -380,7 +380,7 @@ int authenticateThis(int choice)
 int position = 0;
 void populateDictionary(char * pass, int index, int max)
 {
-	
+
 	// 4 letter words
 	if (index >= max)
 	{
@@ -415,14 +415,14 @@ int crackIt()
 	initpass[PASSLENGTH3] = 0;
 	// populate Dictionary
 	populateDictionary(initpass, 0, PASSLENGTH3);
-	
+
 	while (1)
 	{
 		//allocate a string of the max username length
 		char * hash = (char*)calloc(12, sizeof(char));
 		printf("Enter 4-character password hash. Type 0 to exit:\n");
 		scanf("%10s", hash);
-		
+
 		// get rid of all the extra characters
 		char c;
 		do { c = getchar(); } while (c != '\n' && c != '\0');
@@ -452,7 +452,7 @@ int crackIt()
 				break;
 			}
 		}
-		
+
 		if (found == 0)
 		{
 			printf("[%s] Not Found.\n", hash);
@@ -462,9 +462,9 @@ int crackIt()
 }
 
 int main()
-{ 
+{
 	char option[60] = "Choose a program to run from below options:";
-	
+
 	do
 	{
 		// display options for user to choose
@@ -495,7 +495,7 @@ int main()
 			printf("Performing: O Password Cracker\n");
 			crackIt();
 			strncpy(option, "Choose another program to run from the following options:",60);
-			
+
 			break;
 
 			default :

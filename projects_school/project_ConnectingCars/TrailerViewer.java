@@ -1,6 +1,5 @@
 /**
-	Name:	Dexter Falcon
-	Student ID:	009 055 534
+	Name:	JJ Falcon
 	CPS 209 Assignment 2
    
    	NOTE:
@@ -8,7 +7,7 @@
    	DRAGGING TO LINK 	= Make sure to drop close to the middle of the body of the last rail car in the trailer.
    	CONTAINER - ADD		= This removes the container from the pile and add to the rail car.
    	CONTAINER - REMOVE	= This removes the container from the rail car and return to the pile.
-	Q IMPLEMENTATION	= First in, First out.  When a container is returned to the pile, it is will be added at the end.
+	  Q IMPLEMENTATION	= First in, First out.  When a container is returned to the pile, it will be added at the end.
 	
     
 */
