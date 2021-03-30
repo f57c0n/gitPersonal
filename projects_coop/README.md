@@ -1,21 +1,21 @@
-# JJ Falcon 
+# JJ Falcon . Jarvis Consulting
 
 
-I completed my bachelor's degree in Computer Science at Ryerson University with a software engineering concentration in December 2020.
+ I completed my bachelor's degree in Computer Science at Ryerson University with a software engineering concentration in December 2020.
 
-The concentration allowed me to focus my academics and excelled on the entire Software Development cycle.  It also exposed me to different Data Management Methodologies.
+ The concentration allowed me to focus my academics and excelled on the Software Development Life Cycle.  It also exposed me to different Data Management Methodologies.
 
-I am a quick learner, creative and analytical thinker who believes that in most cases, there is no need to reinvent the wheel but look for an opportunity to make existing projects better and more efficient.
+ I am a quick learner, creative and analytical thinker who believes that in most cases, there is no need to reinvent the wheel but look for an opportunity to make existing projects better and more efficient.
 
-I have a customer-centric approach to my work ethics.   I am a firm believer that success at work means helping others be better at what they do.  There is no greater motivation for me than to see my work or be a part of a team whose work has a direct impact on making other people's life easier.  This is what excites me about the software industry.
+ I have a customer-centric approach to my work ethics.   I am a firm believer that success at work means helping others be better at what they do.  There is no greater motivation for me than to see my work or be a part of a team whose work has a direct impact on making other people's life easier.  This is what excites me about the software industry.
 
-Throughout my coop experiences, I have gained a great understanding and hands-on experience of the software development life cycle.  This includes business requirements gathering,  designing solutions,  implementing and maintaining the solution in order to produce results that are meaningful to the organization.
+ Throughout my coop experiences, I have gained a great understanding and hands-on experience of the software development life cycle.  This includes business requirements gathering,  designing solutions,  and implementing and maintaining the solution in order to produce results that are meaningful to the organization.
 
-Additionally, through the Jarvis training program, I have had the opportunity to use some of the technologies in manipulating and mining data.
+ Additionally, through the Jarvis training program, I have had the opportunity to use additional technologies in manipulating and mining data.
 
-I also have a passion for learning new things, and I continually challenge myself to find every opportunity to learn or be a part of something new and innovative.
+ I also have a passion for learning new things, and I continually challenge myself to find every opportunity to learn or be a part of something new and innovative.
 
-I understand the importance and value of data to help companies make better business decisions and be competitive in the market, and I am looking for opportunities in this field.
+ I understand the importance and value of data to help companies make better business decisions and be competitive in the market, and I am looking for opportunities in this field.
 
 ## Skills
 
@@ -31,15 +31,15 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_JjFalcon](
 
 
 **Cluster Monitor** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_JjFalcon/tree/master/linux_sql)]:
-Developed a Linux Cluster Monitoring Agent using bash and psql CLI in CentOS to collect the hardware specifications and monitor the resource usage of nodes connected to a Linux Cluster.
+ Developed a Linux Cluster Monitoring Agent using bash and psql CLI in CentOS to collect the hardware specifications and monitor the resource usage of nodes connected to a Linux Cluster.
 
-Deployed the application using Docker which is used to create a PostgreSQL instance to manage both static and dynamic data collection stored in RDBMS that can later be queried to produce reports for resource planning.
+ Deployed the application using Docker which is used to create a PostgreSQL instance to manage both static and dynamic data collection stored in RDBMS that can later be queried to produce reports for resource planning.
 
 **Core Java Apps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_JjFalcon/tree/master/core_java)]:
 
-- Twitter App: Developed an app that utilizes the Twitter and RESTful APIs using the MVC architecture to enable a Twitter user to fetch, post, and delete tweets.  Tested using Maven's JUnit testing.
-- JDBC App: Developed an application that demonstrates the DAO/DTO implementation of JDBC to a PostgreSQL RDBMS.  Implemented and tested basic CRUD and DML operations.
-- Grep App: Developed an application that simulates the Unix egrep -R implementation that searches all files recursively from a given directory and outputs a file containing all the lines that match the given regex pattern.  Deployed via Docker.
+  - Twitter App: Developed an app that utilizes the Twitter and RESTful APIs using the MVC architecture to enable a Twitter user to fetch, post, and delete tweets.  Tested using Maven's JUnit testing.
+  - JDBC App: Developed an application that demonstrates the DAO/DTO implementation of JDBC to a PostgreSQL RDBMS.  Implemented and tested basic CRUD and DML operations.
+  - Grep App: Developed an application that simulates the Unix egrep -R implementation that searches all files recursively from a given directory and outputs a file containing all the lines that match the given regex pattern.  Deployed via Docker.
 
 **Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_JjFalcon/tree/master/springboot)]: COMING SOON
 
@@ -72,40 +72,40 @@ It also outputs a file with rows containing invalid entries.
 
 **Data Engineer, Jarvis (MAR2021-present)**:
 
-Implemented multiple progressive projects in a scrum environment following the Software Development Life Cycle using the agile methodology.
+ Implemented multiple progressive projects in a scrum environment following the Software Development Life Cycle using the agile methodology.
 
-Exposure includes architecture design, implementation via bash scripting and java using IntelliJ with Maven build automation, and JUnit testing.
+ Exposure includes architecture design, implementation via bash scripting and java using IntelliJ with Maven build automation, and JUnit testing.
 
-Project details are mentioned under the Jarvis Project Listing above.
+ Project details are mentioned under the Jarvis Project Listing above.
 
 
 **Application Programmer – COOP, Ontario Ministry of Health (JAN2020-APR2020)**:
 
-Designed and developed a program to convert an excel file into an AODA (Accessibility for Ontarians with Disabilities) compliant excel file with TkInter as GUI and python openpyxl. Also designed use-cases for testing and providing ongoing maintenance/updates.
+ Designed and developed a program to convert an excel file into an AODA (Accessibility for Ontarians with Disabilities) compliant excel file with TkInter as GUI and python openpyxl. Also designed use-cases for testing and providing ongoing maintenance/updates.
 
-Designed and developed a program to load external data files into DB with several menu options to manipulate data first before loading to Oracle using python pandas.
+ Designed and developed a program to load external data files into DB with several menu options to manipulate data first before loading to Oracle using python pandas.
 
-Researched and provided proof of concepts and illustrations on providing predictive data models as a service to end users, as well as debugging / redesigning old VBA codes and assistance with JS implementation in Cognos.
+ Researched and provided proof of concepts and illustrations on providing predictive data models as a service to end users, as well as debugging / redesigning old VBA codes and assistance with JS implementation in Cognos.
 
 
 **Software Development – COOP, Symcor Inc. (MAY2019-DEC2019)**:
 
-Assist in qualitative research to gain an understanding of the human needs involved in designing solutions and to help reframe the problem in human-centric ways through the design thinking process. Research work also included trends in solutions and competitive landscape.
+ Assist in qualitative research to gain an understanding of the human needs involved in designing solutions and to help reframe the problem in human-centric ways through the design thinking process. Research work also included trends in solutions and competitive landscape.
 
-Distill information from the qualitative research to create design thinking personas and to generate multiple solution ideas for that persona. Adopted a hands-on approach in prototyping those ideas; including sketching and wireframes.
+ Distill information from the qualitative research to create design thinking personas and to generate multiple solution ideas for that persona. Adopted a hands-on approach in prototyping those ideas; including sketching and wireframes.
 
-Maintained and updated internal website built on PHP. Mostly front-end work.
+ Maintained and updated internal website built on PHP. Mostly front-end work.
 
 
 **Predictive Modelling Analyst – COOP, Rogers Communication (SEP2018-DEC2018)**:
 
-Accessed information in the databases to create data extracts and cleansing, transformations and summaries by using Proc SQL scripting within SAS Enterprise, and provided these for marketing initiatives.
+ Accessed information in the databases to create data extracts and cleansing, transformations and summaries by using Proc SQL scripting within SAS Enterprise, and provided these for marketing initiatives.
 
-Visualized data through excel dashboards by means of pivot tables and charts which are then used in PowerPoint presentations to internal / external teams within the marketing and sales business unit.
+ Visualized data through excel dashboards by means of pivot tables and charts which are then used in PowerPoint presentations to internal / external teams within the marketing and sales business unit.
 
-Reviewed data to look at patterns and unusual data, and perform sample testing and/or research to validate it.
+ Reviewed data to look at patterns and unusual data, and perform sample testing and/or research to validate it.
 
-Constructed supervised and unsupervised churn models and ensure their end-to-end performance validation.
+ Constructed supervised and unsupervised churn models and ensure their end-to-end performance validation.
 
 
 
@@ -134,7 +134,7 @@ Constructed supervised and unsupervised churn models and ensure their end-to-end
 - Highly intuitive and applies the same principle to work produced
 - Takes initiative in acquiring necessary resources independently in ensuring task completion
 - Works effectively well independently or collaboratively with others
-- :
+
 - ACTIVITIES/HOBBIES:
 - Gardening
 - Volunteer, Carnegie Community Centre:  Kitchen Help
