@@ -1,0 +1,44 @@
+# MAVEN
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+*.iml
+.idea/
+.eclipse
+
+# JAVA
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+
+# PYTHON
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+
+# LOGS
+*.log
+*.logs
+**/logs
+**/logs/debug.log
+/debug.log
+debug.log
+debug?.log
+logs
+logs/
