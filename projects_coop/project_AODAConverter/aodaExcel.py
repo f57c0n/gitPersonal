@@ -4,7 +4,7 @@ import os
 import queue
 import timeit
 import shutil
-from sys import exit as systemexit
+import sys
 
 import openpyxl as xl
 from openpyxl.worksheet.table import Table, TableStyleInfo
@@ -20,6 +20,13 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 
 from copy import copy
+import aodaConfig
+
+
+def gPath(path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, path)
+    return path
 
 
 def main():
@@ -49,7 +56,7 @@ def beginApp(root):
     # FRAME1 ELEMENTS
     frame1 = tk.LabelFrame(root, text="MAKING YOUR EXCEL FILE AODA COMPLIANT", width=1300, height=150, bd=5)
 
-    img = ImageTk.PhotoImage(Image.open("mohLogoM.png").resize((171, 74), Image.ANTIALIAS))
+    img = ImageTk.PhotoImage(Image.open(gPath("jj.jpg")).resize((171, 74), Image.ANTIALIAS))
 
     side = tk.Frame(frame1)
     imgLogo = tk.Label(side, image=img)
@@ -94,7 +101,7 @@ def quitApp(wb, aodaFile):
     wb.save(aodaFile)
     wb.close()
     os.chmod(aodaFile, 0o755)
-    systemexit()
+    sys.exit()
 
 
 def finishProcess(wb, aodaFile, browseButton):
@@ -129,7 +136,7 @@ def getFile(browseButton, selectedFile, mlt):
         mlt.configure(text='FILE OPENED.', font=(None, 12, 'bold'), fg='red')
     else:
         # exits if no file is chosen / cancels
-        systemexit()
+        sys.exit()
 
 
 def startAODA(root, selectedFileName, browseButton, messageLabelText):
@@ -155,7 +162,6 @@ class PopUp(tk.Toplevel):
                '\n Published:\tFebruary 2020' \
                '\n' \
                '\n Author:\t\tFalcon, JJ' \
-               '\n Author:\t\tZhang, Alex' \
                '\n' \
                '\n INPUT:\tEXCEL FILE WITH TABLES' \
                '\n OUTPUT:\tEXCEL FILE FORMATTED TO BE AODA COMPLIANT' \
@@ -232,7 +238,7 @@ class AODA:
         # counts number of sheets
         self.sheetTotalCount = len(self.wb.sheetnames)
 
-        self.sheetDicList = [{'titleCell': '', 'sheetName': name, 'converted': False} for name in self.wb.sheetnames]
+        self.sheetDicList = [{'altText': '', 'titleHeader': '', 'sheetName': name, 'converted': False} for name in self.wb.sheetnames]
 
         self.sheetStatus = tk.StringVar()
         self.sheetStatus.set("SHEET %s OF %s" % (self.sheetCounter + 1, self.sheetTotalCount))
@@ -255,8 +261,9 @@ class AODA:
         self.sheetName = tk.Label(titlebar2, text='', font=(None, 12, 'bold'), fg='blue', height=2)
         self.sheetName.configure(text=self.sheetDicList[self.sheetCounter]['sheetName'])
 
-        sheetInstructionLabel = tk.Label(self.frame2, text="Enter Cell Address for the following:", font=(None, 12))
+        sheetInstructionLabel = tk.Label(self.frame2, text="Enter Cell Address for STEPS 1, 2, 3, & TITLE:", font=(None, 12))
         reportTitleLabel = tk.Label(self.frame2, text="REPORT TITLE:", font=(None, 12))
+        reportAltText = tk.Label(self.frame2, text="ALT-TEXT NAME:", font=(None, 12))
 
         step1Label = tk.Label(self.frame2, text="STEP 1: ", font=(None, 12))
         step2Label = tk.Label(self.frame2, text="STEP 2: ", font=(None, 12))
@@ -281,6 +288,7 @@ class AODA:
 
         sheetInstructionLabel.grid(row=1, column=1, padx=(22, 5), pady=(5, 10), sticky='nw')
         reportTitleLabel.grid(row=1, column=2, padx=(22, 5), pady=(5, 10))
+        reportAltText.grid(row=1, column=3, padx=(22, 5), pady=(5, 10))
 
         step1Label.grid(row=4, column=1, padx=5, pady=5)
         step2Label.grid(row=4, column=2, padx=5, pady=5)
@@ -298,7 +306,7 @@ class AODA:
         frame3.grid_propagate(False)
         frame3.grid(row=1, column=1, rowspan=2, padx=(0, 10), sticky='nw')
 
-        img = ImageTk.PhotoImage(Image.open("AODA.png").resize((525, 515), Image.ANTIALIAS))
+        img = ImageTk.PhotoImage(Image.open(gPath("AODA.png")).resize((525, 515), Image.ANTIALIAS))
         self.imgInstructions = img
 
         imgLabel = tk.Label(frame3, image=self.imgInstructions)
@@ -328,6 +336,9 @@ class AODA:
     def convertSheet(self):
         # Condition not required, submit/convert button should be disabled
         # but placed for safety net.  Checks in def getNext
+
+        print("DIC:", self.sheetDicList)
+
         if not self.sheetDicList[self.sheetCounter]['converted']:
             self.buttonState('d', True, True, False, False)
 
@@ -335,8 +346,8 @@ class AODA:
 
             print("startConversion: ", self.wb[self.sheetName['text']], self.tableList)
 
-            print("TITLE ADDY: ", self.sheetDicList[self.sheetCounter]['titleHeader'])
             formatReportTitle(self.wb[self.sheetName['text']], self.sheetDicList[self.sheetCounter]['titleHeader'])
+            setAltText(self.wb[self.sheetName['text']], self.sheetDicList[self.sheetCounter]['altText'])
 
             startConversionProcess(self.wb[self.sheetName['text']], self.tableList)
 
@@ -350,7 +361,15 @@ class AODA:
 
     def generateTableList(self):
         temp = []
-        flag = flag1 = flag2 = flag3 = flag4 = flag5 = True
+        flag = flag1 = flag2 = flag3 = flag4 = flag5 = flag6 = True
+
+        if self.altText.get():
+            self.altText.configure(bg=self.origBG, fg=self.origFG)
+            self.sheetDicList[self.sheetCounter]['altText'] = self.altText.get()
+        else:
+            self.altText.focus_set()
+            self.altText.configure(bg='#ffffe0', fg='red')
+            flag6 = False
 
         if self.titleHeader.get():
             the = isValid(self.titleHeader.get())
@@ -392,11 +411,11 @@ class AODA:
             else:
                 flag5 = False
 
-        if flag and flag1 and flag2 and flag3 and flag4 and flag5:
+        if flag and flag1 and flag2 and flag3 and flag4 and flag5 and flag6:
             self.tableList = temp
             self.buttonState('n', False, True, False, False)
         else:
-            mb.showinfo("Alert", "Please enter VALID CELL ADDRESS FORMAT")
+            mb.showinfo("Alert", "Please enter VALID CELL ADDRESS FORMAT AND PROVIDE ALT-TEXT NAME")
 
     def getNext(self, forward):
         self.processEntryWidgets('CLEAR')
@@ -477,6 +496,7 @@ class AODA:
             # self.setEntry(self.startHeaderEntry5, self.startDataEntry5, self.endDataEntry5)
 
             self.titleHeader = tk.Entry(self.frame2, width=20, font=(None, 12, 'bold'), fg='blue')
+            self.altText = tk.Entry(self.frame2, width=20, font=(None, 12, 'bold'), fg='blue')
 
             self.startHeaderEntry1 = tk.Entry(self.frame2, width=20, font=(None, 12, 'bold'), fg='blue')
             self.startDataEntry1 = tk.Entry(self.frame2, width=20, font=(None, 12, 'bold'), fg='blue')
@@ -501,6 +521,7 @@ class AODA:
 
             self.titleHeader.focus()
             self.titleHeader.grid(row=2, column=2, padx=10, pady=5)
+            self.altText.grid(row=2, column=3, padx=10, pady=5)
 
             self.startHeaderEntry1.grid(row=11, column=1, padx=10, pady=5)
             self.startDataEntry1.grid(row=11, column=2, padx=10, pady=5)
@@ -529,6 +550,9 @@ class AODA:
 
             self.titleHeader.delete(0, 'end')
             self.titleHeader.configure(bg=self.origBG, fg=self.origFG)
+
+            self.altText.delete(0, 'end')
+            self.altText.configure(bg=self.origBG, fg=self.origFG)
 
             self.startHeaderEntry1.focus_set()
 
@@ -616,21 +640,41 @@ class AODA:
 def startConversionProcess(sh, tableList):
     print("tableList", tableList)
 
-    # text = Properties(altText="SAMPLE")
-
+    # unMerge only works with original cell addresses and will retain it regardless of any insertion/deletion of rows
     newMergedRangeList = unMerge(sh)
-    print(newMergedRangeList)
+    print("MR: ", newMergedRangeList)
 
     # accumulates all deleted rows
     totalEmptyRowList = []
+    empties = []
+    alteredTableList = []
     newTableList = []
     index = 0
 
-    for sheetRange in tableList:
-        print("SR: ", sheetRange)
+    cell = findScreenReader(sh, tableList[0]['beginHeader'][1])
+    if cell:
+        alteredTableList = tableList
+        reader = 0
+    else:
+        sh.insert_rows(1, 1)
+        sh.cell(1, 1).value = "Screen Reader: "
+        reader = 1
+
+        for sheetRange in tableList:
+            tempRange = getNewSheetRange('SR', sheetRange, 0, 0)
+            alteredTableList.append(tempRange)
+
+        for cell in newMergedRangeList:
+            cell.shift(row_shift=1)
+
+    print("NMR: ", newMergedRangeList)
+    print("NTL: ", alteredTableList)
+
+    for sheetRange in alteredTableList:
         emptyRowList = []
+        empty = []
         nnb = True
-        if len(tableList) > 1:
+        if len(alteredTableList) > 1:
             nnb = False
             # checks if there is no adjacent table (left and right)
             if index == 0:
@@ -660,13 +704,12 @@ def startConversionProcess(sh, tableList):
             print("emptyRows: ", emptyRowList)
             # adjusts by own rows
             newSheetRange = getNewSheetRange('NR', tempSheetRange, emptyRowList, totalEmptyRowList)
-            print("nSR: ", sheetRange)
             # deletes specified empty rows
             deleteEmptyRows(sh, emptyRowList)
 
             newTableList.append(newSheetRange)
         else:
-            pass
+            mb.showinfo("Alert", "SIDE BY SIDE TABLES NOT YET IMPLEMENTED")
 
         totalEmptyRowList += emptyRowList
 
@@ -674,22 +717,29 @@ def startConversionProcess(sh, tableList):
         reducedMergedRangeList = populateGroups(sh, newSheetRange, newMergedRangeList, emptyRowList)
         newMergedRangeList = reducedMergedRangeList
 
-        table_count = len(tableList)
+        if index == 0:
+            beginRow = 1
+        else:
+            beginRow = tableList[index - 1]['endData'][1] + 1
 
+        # delete the rest of the empty rows, need to be incorporated above under if nbb for multiple tables:
+        empty = checkEmpty(sh, beginRow, newSheetRange['beginHeader'][1], newSheetRange['endData'][0])
+        deleteEmptyRows(sh, empty)
+        totalEmptyRowList += empty
+        empties += empty
+        tableSheetRange = getNewSheetRange('O', newSheetRange, 0, empties)
+        print("TBS: ", tableSheetRange)
         # formats table into a Table format with the correct header
-        convertTable(sh, newSheetRange, table_count)
+        convertTable(sh, tableSheetRange)
 
-        # formats whole table with borders
-        start = timeit.default_timer()
-        setBorder(sh, newSheetRange)
-        stop = timeit.default_timer()
-        print('Time: ', stop - start)
+        # convertTable(sh, newSheetRange)
 
         index += 1
 
+    newTableList = sorted(newTableList, key=lambda k: (k['beginHeader'][0], k['beginHeader'][1]))
     # updates Screen Reader messages
-    insertScreenReader(sh, newTableList)
     writeNoData(sh, newTableList)
+    insertScreenReader(sh, newTableList)
 
     print("TO DO: Check overlapping table sheet entry")
 
@@ -728,6 +778,14 @@ def getNewSheetRange(flag, sheetRange, emptyRowList, totalEmptyRowList):
             if x < sheetRange['beginData'][1]:
                 beginDRow -= 1
         endRow = sheetRange['endData'][1] - len(emptyRowList)
+    elif flag.upper() == 'SR':
+        beginHRow = sheetRange['beginHeader'][1] + 1
+        beginDRow = sheetRange['beginData'][1] + 1
+        endRow = sheetRange['endData'][1] + 1
+    elif flag.upper() == 'O':
+        beginHRow = sheetRange['beginHeader'][1] - len(totalEmptyRowList)
+        beginDRow = sheetRange['beginData'][1] - len(totalEmptyRowList)
+        endRow = sheetRange['endData'][1] - len(totalEmptyRowList)
 
     return {'beginHeader': (sheetRange['beginHeader'][0], beginHRow),
             'beginData': (sheetRange['beginData'][0], beginDRow), 'endData': (sheetRange['endData'][0], endRow)}
@@ -743,8 +801,8 @@ def getPerimeter(sheetRange):
     return {'beginCol': beginCol, 'endCol': endCol, 'beginRow': beginRow, 'endRow': endRow}
 
 
-# TEMPORARY:  only put EOC for each table
 def checkEmptyRows(sh, sheetRange):
+    print("SR: ", sheetRange)
     emptyRowList = []
     # only used to shortened referenced names
     p = getPerimeter(sheetRange)
@@ -758,6 +816,21 @@ def checkEmptyRows(sh, sheetRange):
             if colNum + 1 == p['endCol'] + 1:
                 sh.cell(rowNum, colNum + 1).value = "End Column"
                 sh.cell(rowNum, colNum + 1).font = Font(color="FFFFFF")
+        if isEmpty:
+            emptyRowList.append(rowNum)
+
+    return emptyRowList
+
+
+# TO DO: combine with above.  Last minute addition.
+def checkEmpty(sh, begRow, endRow, endCol):
+    emptyRowList = []
+    # returns empty rows from Data Segment & writes "End of Column"
+    for rowNum in range(begRow, endRow + 1):
+        isEmpty = True
+        for colNum in range(1, column_index_from_string(endCol)):
+            if sh.cell(rowNum, colNum).value not in [None, '']:
+                isEmpty = False
         if isEmpty:
             emptyRowList.append(rowNum)
 
@@ -832,7 +905,7 @@ def populateGroups(sh, sheetRange, mergedRangeList, emptyRowList):
 
         # manually checks if merged cell is subset of sheet range
         if beginSheetColumn <= beginMergedColumn <= endSheetColumn and beginSheetColumn <= endMergedColumn <= endSheetColumn \
-                and beginSheetRow <= beginMergedRow < endSheetRow and beginSheetRow <= endMergedRow <= endSheetRow:
+                and beginSheetRow <= beginMergedRow <= endSheetRow and beginSheetRow <= endMergedRow <= endSheetRow:
 
             # locates the current cell where the value for the merged cell is located
             currentCell = sh.cell(beginMergedRow, beginMergedColumn)
@@ -868,9 +941,20 @@ def copyMergedValues(sh, row, col, currentCell):
     sh.cell(row, col).alignment = copy(currentCell.alignment)
 
 
+def findScreenReader(sh, endRow):
+    for row in range(1, endRow):
+        cell = sh.cell(row, 1)
+        cellValue = cell.value
+
+        if cellValue and "Blank cells" in cellValue:
+            return cell
+
+    return None
+
+
 # INSERTS SCREEN READER TO IDENTIFY HEADERS AND DATA SEGMENT
 def insertScreenReader(sh, tableList):
-    blank = "Blank cells in the middle of the table represent No Data. "
+    blank = aodaConfig.screen_message
     table_size = len(tableList)
     if table_size == 1:
         dataColumn = column_index_from_string(tableList[0]['beginData'][0])
@@ -888,32 +972,26 @@ def insertScreenReader(sh, tableList):
 
         text = blank + 'There are ' + str(table_size) + ' tables in this sheet. The tables start at' + statement + '.'
 
-    sh.cell(2, 1).value = text
-    # sh.cell(2, 1).font = Font(color="0000FF")
-    # a1 = sh['A1']
-    # sh.cell(2, 1).font = copy(a1.font)
+    cell = findScreenReader(sh, tableList[0]['beginHeader'][1])
+
+    if cell:
+        cell.value = text
+    else:
+        sh.cell(1, 1).value = text
 
 
-def convertTable(sh, sheetRange, count):
-    display = "".join(('Table', str(count)))
-
+def convertTable(sh, sheetRange):
     beginCell = "".join((sheetRange['beginData'][0], str(sheetRange['beginData'][1] - 1)))
     endCell = "".join((sheetRange['endData'][0], str(sheetRange['endData'][1])))
 
     dataRange = beginCell + ':' + endCell
 
-    # table names must be unique for each sheet
-    tab = Table(displayName=display, ref=dataRange)
-    # Add a default style with striped rows and banded columns
-    # name="TableStyleMedium9" /Light /Dark
-    # style = TableStyleInfo(name="TableStyleLight5", showFirstColumn=False,
-    #                        showLastColumn=False, showRowStripes=True, showColumnStripes=False)
-
-    # tab.tableStyleInfo = style
+    # header names must be unique for each sheet
+    tab = Table(displayName='Name', ref=dataRange)
     sh.add_table(tab)
 
 
-# TO DO:  FORMAT HEADER1
+# NOT NEEDED
 def setBorder(sh, sheetRange):
     # adjust before coming here
     beginCell = "".join((sheetRange['beginHeader'][0], str(sheetRange['beginHeader'][1])))
@@ -978,20 +1056,32 @@ def setBorder(sh, sheetRange):
 
 def formatReportTitle(sh, title_address):
     cell = "".join((title_address[0], str(title_address[1])))
-    print("Cell to format: ", cell)
     title = sh[cell]
     title.style = 'Headline 1'
 
 
-# def getTableTitles(sh, tableList):
-#     titleNames = []
-#     index = 0
-#     for sheetRange in tableList:
-#         cell = "".join((sheetRange['titleHeader'][0], str(sheetRange['titleHeader'][1])))
-#         title = sh[cell]
-#         titleNames.append((index+1, title.value))
-#
-#     return titleNames
+def setAltText(sh, description):
+    text = Properties(altText=description, textHAlign='justify', textVAlign='justify')
+    print("ALT-TEXT:", text.altText)
+
+    # apply text to sheet.
+    sh.text = text
+    # sh.add_comment(text)
+    # sh.add_altText(text)
+    # apply to A1
+    # sh['A1'].text = text
+    # sh.cell(1,1).text = text
+
+
+def getTableTitles(sh, tableList):
+    titleNames = []
+    index = 0
+    for sheetRange in tableList:
+        cell = "".join((sheetRange['titleHeader'][0], str(sheetRange['titleHeader'][1])))
+        title = sh[cell]
+        titleNames.append((index+1, title.value))
+
+    return titleNames
 
 
 def writeNoData(sh, tableList):
@@ -1003,11 +1093,11 @@ def writeNoData(sh, tableList):
                 if sh.cell(row, col).value in [None, '', 0]:
                     sh.cell(row, col).value = "No Data"
                     # ADDED ALL FONT COLORS TO GREEN FOR NOW
-                    sh.cell(row, col).font = Font(color="FFFFFF")
+                    sh.cell(row, col).font = Font(color="FFFFFF", size=12)
                 # determines what is endCol
                 if col + 1 == endCol:
                     sh.cell(row, col + 1).value = "End Column"
-                    sh.cell(row, col + 1).font = Font(color="FFFFFF")
+                    sh.cell(row, col + 1).font = Font(color="FFFFFF", size=12)
 
     index = 0
     for sheetRange in tableList:
@@ -1023,9 +1113,8 @@ def writeNoData(sh, tableList):
         index += 1
 
     beginRow = tableList[len(tableList) - 1]['endData'][1] + 1
-    endRow = sh.max_row
+    endRow = sh.max_row + 1
     endCol = column_index_from_string(tableList[len(tableList) - 1]['endData'][0]) + 1
-    print('MAX ROW:', endRow)
 
     writeND(beginRow, endRow, endCol)
 
